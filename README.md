@@ -1,100 +1,113 @@
 # YouTube Downloader
 
-YouTube'dan video ve ses indirmek için kullanılan basit bir uygulama.
+A desktop application for downloading videos and audio from YouTube with a user-friendly interface.
 
-## Özellikler
+![YouTube Downloader Screenshot](assets/screenshot.png)
 
-- YouTube videolarını MP4 formatında indirme
-- YouTube ses dosyalarını MP3 formatında indirme
-- Farklı video kalitesi seçenekleri (240p, 360p, 480p, 720p, 1080p)
-- Farklı ses kalitesi seçenekleri (96kbps, 128kbps, 192kbps, 256kbps, 320kbps)
-- Playlist indirme desteği
-- İndirme ilerleme durumu gösterimi
-- İndirilen dosyaların listesi
+## Features
 
-## Kurulum
+- Download YouTube videos in various qualities (240p to 1080p)
+- Download audio in MP3 format with different bitrates
+- Download entire playlists
+- Track download progress in real-time
+- View download history
+- Simple and intuitive user interface
+- High-quality downloads using yt-dlp and ffmpeg
 
-### Kurulum Dosyası ile Kurulum
+## Installation
 
-1. [Buradan](https://github.com/ytdownloader/releases) en son sürümü indirin.
-2. İndirilen `YouTubeDownloader-Setup.exe` dosyasını çalıştırın.
-3. Kurulum sihirbazını takip edin.
+### Requirements
 
-### Manuel Kurulum
+- Python 3.8 or higher
+- FFmpeg (automatically downloaded during installation if not present)
 
-1. Python 3.6 veya daha yeni bir sürümü yükleyin.
-2. Gerekli paketleri yükleyin:
+### Option 1: Using the Installer (Windows)
+
+1. Download the latest installer from the [Releases](https://github.com/yourusername/ytdownloader/releases) page
+2. Run the installer and follow the on-screen instructions
+3. Start the application from the desktop shortcut or Start menu
+
+### Option 2: From Source
+
+1. Clone this repository:
+
    ```
-   pip install yt-dlp PyQt6 ffmpeg-python
-   ```
-3. FFmpeg'i yükleyin ve PATH'e ekleyin:
-   - [FFmpeg İndirme Sayfası](https://ffmpeg.org/download.html)
-4. Uygulamayı çalıştırın:
-   ```
-   python main.py
+   git clone https://github.com/yourusername/ytdownloader.git
+   cd ytdownloader
    ```
 
-## Kullanım
+2. Install the required dependencies:
 
-1. Uygulamayı başlatın.
-2. İndirmek istediğiniz YouTube video URL'sini girin.
-3. Video veya ses indirme seçeneğini belirleyin.
-4. Kalite seçeneğini belirleyin.
-5. "İndir" düğmesine tıklayın.
-6. İndirme tamamlandığında, dosya otomatik olarak açılacaktır.
+   ```
+   pip install -r requirements.txt
+   ```
 
-## Geliştirme
+3. Run the application:
+   ```
+   python src/main.py
+   ```
 
-### Gereksinimler
+## Usage
 
-- Python 3.6+
-- PyQt6
-- yt-dlp
-- ffmpeg-python
+1. Launch the application
+2. Enter a YouTube URL in the input field
+3. Select the download type (Video or Audio)
+4. Choose your preferred quality
+5. Click "Download" and wait for the process to complete
+6. Access downloaded files through the application or in your Downloads folder
 
-### Exe Dosyası Oluşturma
+## Development
 
-1. PyInstaller'ı yükleyin:
+### Project Structure
+
+```
+ytdownloader/
+├── assets/              # Images and resources
+├── docs/                # Documentation
+├── src/                 # Source code
+│   ├── core/            # Core functionality
+│   │   └── downloader.py  # YouTube download logic
+│   ├── ui/              # User interface
+│   │   └── main_window.py # Main application window
+│   └── main.py          # Application entry point
+├── tests/               # Test files
+├── .gitignore           # Git ignore file
+├── LICENSE              # License file
+├── README.md            # This file
+└── requirements.txt     # Python dependencies
+```
+
+### Building the Application
+
+To build the executable and installer:
+
+1. Install PyInstaller and NSIS:
    ```
    pip install pyinstaller
    ```
-2. Exe dosyasını oluşturun:
+2. Download and install [NSIS](https://nsis.sourceforge.io/Download)
+
+3. Run the build script:
    ```
-   pyinstaller --name YouTubeDownloader --onefile --windowed --icon=icon.ico --add-data "*.py;." --hidden-import PyQt6 --hidden-import yt_dlp --hidden-import ffmpeg main.py
+   python build.py
    ```
-   veya
-   ```
-   build.bat
-   ```
-   komutunu çalıştırın.
 
-### Kurulum Dosyası Oluşturma
+## Contributing
 
-1. NSIS'i yükleyin: [NSIS İndirme Sayfası](https://nsis.sourceforge.io/Download)
-2. `installer.nsi` dosyasını derleyin:
-   ```
-   "C:\Program Files (x86)\NSIS\makensis.exe" installer.nsi
-   ```
-   veya
-   ```
-   build.bat
-   ```
-   komutunu çalıştırın.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Güvenlik Uyarıları Hakkında
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Bu uygulama, imzalanmamış bir uygulama olduğu için Windows Defender veya diğer antivirüs programları tarafından "güvenilir olmayan program" olarak işaretlenebilir. Bu durum, tüm PyInstaller ile paketlenmiş uygulamalar için yaygın bir sorundur ve uygulamanın zararlı olduğu anlamına gelmez.
+## License
 
-### Uyarıyı Geçmek İçin
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-1. Dosyayı indirdiğinizde çıkan uyarıda "Daha fazla bilgi" seçeneğine tıklayın
-2. Ardından "Yine de çalıştır" seçeneğini tıklayın
-3. Yükleme sorunsuz bir şekilde devam edecektir
+## Acknowledgements
 
-### Neden Bu Uyarı Çıkıyor?
-
-Bu tür uyarılar, uygulamanın bir kod imzalama sertifikası ile imzalanmamış olmasından kaynaklanır. Kod imzalama sertifikaları, yazılımın güvenilir bir kaynaktan geldiğini doğrular ancak maliyetli olduklarından birçok ücretsiz ve açık kaynaklı projede kullanılmaz.
-
-## Lisans
-
-Bu proje [MIT Lisansı](LICENSE.txt) altında lisanslanmıştır.
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) for the powerful YouTube download engine
+- [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) for the GUI framework
+- [FFmpeg](https://ffmpeg.org/) for media processing capabilities
