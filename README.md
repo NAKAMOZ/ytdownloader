@@ -1,113 +1,133 @@
 # YouTube Downloader
 
-A desktop application for downloading videos and audio from YouTube with a user-friendly interface.
+A user-friendly desktop application for downloading videos and audio from YouTube.
 
 ![YouTube Downloader Screenshot](assets/screenshot.png)
 
 ## Features
 
-- Download YouTube videos in various qualities (240p to 1080p)
-- Download audio in MP3 format with different bitrates
-- Download entire playlists
-- Track download progress in real-time
-- View download history
-- Simple and intuitive user interface
-- High-quality downloads using yt-dlp and ffmpeg
+- Video and audio (MP3) download support
+- Various video quality options (from 240p to 1080p)
+- Different audio quality options (from 96kbps to 320kbps)
+- Playlist download support
+- Download progress tracking and status display
+- Automatic thumbnail downloading
+- Dark theme interface
+- Custom download location selection
+
+## Requirements
+
+- Python 3.6 or higher
+- FFmpeg
+- The following Python packages:
+  - PyQt6
+  - yt-dlp
+  - ffmpeg-python
 
 ## Installation
 
-### Requirements
+### 1. Clone the repository
 
-- Python 3.8 or higher
-- FFmpeg (automatically downloaded during installation if not present)
+```bash
+git clone https://github.com/yourusername/ytdownloader.git
+cd ytdownloader
+```
 
-### Option 1: Using the Installer (Windows)
+### 2. Create a virtual environment (optional but recommended)
 
-1. Download the latest installer from the [Releases](https://github.com/yourusername/ytdownloader/releases) page
-2. Run the installer and follow the on-screen instructions
-3. Start the application from the desktop shortcut or Start menu
+```bash
+python -m venv venv
+```
 
-### Option 2: From Source
+On Windows:
 
-1. Clone this repository:
+```bash
+venv\Scripts\activate
+```
 
-   ```
-   git clone https://github.com/yourusername/ytdownloader.git
-   cd ytdownloader
-   ```
+On Linux/MacOS:
 
-2. Install the required dependencies:
+```bash
+source venv/bin/activate
+```
 
-   ```
-   pip install -r requirements.txt
-   ```
+### 3. Install the requirements
 
-3. Run the application:
-   ```
-   python src/main.py
-   ```
+```bash
+pip install PyQt6 yt-dlp ffmpeg-python
+```
+
+### 4. Install FFmpeg
+
+#### Windows
+
+1. Download FFmpeg for Windows from the [FFmpeg download page](https://ffmpeg.org/download.html)
+2. Extract the ZIP file and add the files from the `bin` folder to your system path or copy them into your application folder
+
+#### Linux
+
+```bash
+sudo apt update
+sudo apt install ffmpeg
+```
+
+#### macOS
+
+```bash
+brew install ffmpeg
+```
 
 ## Usage
 
-1. Launch the application
-2. Enter a YouTube URL in the input field
-3. Select the download type (Video or Audio)
-4. Choose your preferred quality
-5. Click "Download" and wait for the process to complete
-6. Access downloaded files through the application or in your Downloads folder
+To start the application:
 
-## Development
+```bash
+python src/main.py
+```
 
-### Project Structure
+1. Enter a YouTube video or playlist URL in the URL field
+2. Select "Video" or "Audio" option
+3. Choose your desired quality
+4. Check "Download as playlist" option if needed (for playlists)
+5. Change the save location if needed
+6. Click the "DOWNLOAD" button
+7. Track the download status from the progress bar
+
+## Project Structure
 
 ```
 ytdownloader/
-├── assets/              # Images and resources
-├── docs/                # Documentation
-├── src/                 # Source code
-│   ├── core/            # Core functionality
-│   │   └── downloader.py  # YouTube download logic
-│   ├── ui/              # User interface
-│   │   └── main_window.py # Main application window
-│   └── main.py          # Application entry point
-├── tests/               # Test files
-├── .gitignore           # Git ignore file
-├── LICENSE              # License file
-├── README.md            # This file
-└── requirements.txt     # Python dependencies
+├── src/                  # Source code
+│   ├── main.py           # Main application entry
+│   ├── __init__.py       # Package identifier
+│   ├── core/             # Core functionality
+│   │   ├── downloader.py # YouTube download operations
+│   │   └── __init__.py   # Package identifier
+│   └── ui/               # User interface
+│       ├── main_window.py # Main window class
+│       └── __init__.py    # Package identifier
+├── assets/               # Images and icon files
+└── README.md             # This file
 ```
 
-### Building the Application
+## Technologies
 
-To build the executable and installer:
-
-1. Install PyInstaller and NSIS:
-   ```
-   pip install pyinstaller
-   ```
-2. Download and install [NSIS](https://nsis.sourceforge.io/Download)
-
-3. Run the build script:
-   ```
-   python build.py
-   ```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) - User interface
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp) - YouTube download functionality
+- [FFmpeg](https://ffmpeg.org/) - Video processing
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## Acknowledgements
+## Contributing
 
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) for the powerful YouTube download engine
-- [PyQt6](https://www.riverbankcomputing.com/software/pyqt/) for the GUI framework
-- [FFmpeg](https://ffmpeg.org/) for media processing capabilities
+1. Fork this repository
+2. Create a new feature branch (`git checkout -b new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push your branch (`git push origin new-feature`)
+5. Create a Pull Request
+
+## Contact
+
+For questions or suggestions, please contact [your email address].
