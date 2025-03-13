@@ -38,10 +38,10 @@ class YouTubeDownloader:
         self.thumbnail_directory = os.path.join(self.download_directory, "thumbnails")
         self.downloaded_files = []
         
-        # Path for download history file - store in project directory
-        script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        self.history_file_path = os.path.join(script_dir, "download_history.txt")
-        print(f"Download history file path: {self.history_file_path}")
+        # Geçmiş dosyası yolunu kaldırıyoruz
+        # script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        # self.history_file_path = os.path.join(script_dir, "download_history.txt")
+        # print(f"Download history file path: {self.history_file_path}")
         
         # Create thumbnail directory
         os.makedirs(self.thumbnail_directory, exist_ok=True)
@@ -280,23 +280,6 @@ class YouTubeDownloader:
             # Finish the process
             filename = os.path.basename(filepath)
             
-            # Always add to the downloaded files list - include URL
-            if os.path.exists(filepath):
-                # Check if file is already in list to avoid duplicates
-                file_exists = False
-                for i, file_data in enumerate(self.downloaded_files):
-                    if len(file_data) >= 2:  # Ensure we have at least filename and filepath
-                        existing_filepath = file_data[1]  # filepath is at index 1
-                        if existing_filepath == filepath:
-                            file_exists = True
-                            break
-                
-                if not file_exists:
-                    # Store filename, filepath, thumbnail_path, and URL
-                    self.downloaded_files.append((filename, filepath, thumbnail_path, video_url))
-                    self.save_downloaded_files()
-                    print(f"Added to download history: {filename} | URL: {video_url}")
-            
             # Send signal only if notification is required
             if notify_completion:
                 self.signals.finished.emit(filename, filepath, thumbnail_path)
@@ -359,54 +342,79 @@ class YouTubeDownloader:
         return f"{size_bytes:.2f} {size_names[i]}"
     
     def save_downloaded_files(self):
-        """Saves the list of downloaded files"""
-        try:
-            print(f"Saving download history: {len(self.downloaded_files)} items to {self.history_file_path}")
-            with open(self.history_file_path, "w", encoding="utf-8") as f:
-                for item in self.downloaded_files:
-                    if len(item) >= 4:  # New format with URL
-                        filename, filepath, thumbnail_path, url = item
-                        f.write(f"{filename}|{filepath}|{thumbnail_path}|{url}\n")
-                    else:  # Old format without URL
-                        filename, filepath, thumbnail_path = item
-                        f.write(f"{filename}|{filepath}|{thumbnail_path}|\n")
-                    print(f"  - Saved: {filename} | {filepath}")
-            print(f"Download history saved successfully to {self.history_file_path}")
-        except Exception as e:
-            print(f"Error saving download history: {e}")
+        """Geçmiş kaydetme işlevi devre dışı bırakıldı"""
+        pass
+        # try:
+        #     print(f"Saving download history: {len(self.downloaded_files)} items to {self.history_file_path}")
+        #     with open(self.history_file_path, "w", encoding="utf-8") as f:
+        #         for item in self.downloaded_files:
+        #             if len(item) >= 4:  # New format with URL
+        #                 filename, filepath, thumbnail_path, url = item
+        #                 f.write(f"{filename}|{filepath}|{thumbnail_path}|{url}\n")
+        #             else:  # Old format without URL
+        #                 filename, filepath, thumbnail_path = item
+        #                 f.write(f"{filename}|{filepath}|{thumbnail_path}|\n")
+        #             print(f"  - Saved: {filename} | {filepath}")
+        #     print(f"Download history saved successfully to {self.history_file_path}")
+        # except Exception as e:
+        #     print(f"Error saving download history: {e}")
     
     def load_downloaded_files(self):
-        """Loads the list of downloaded files"""
-        try:
-            if os.path.exists(self.history_file_path):
-                print(f"Loading download history from {self.history_file_path}")
-                self.downloaded_files = []
-                with open(self.history_file_path, "r", encoding="utf-8") as f:
-                    for line in f:
-                        parts = line.strip().split("|")
-                        if len(parts) >= 4:  # New format with URL
-                            filename = parts[0]
-                            filepath = parts[1]
-                            thumbnail_path = parts[2]
-                            url = parts[3]
-                            print(f"  - Loaded: {filename} | URL: {url}")
-                            self.downloaded_files.append((filename, filepath, thumbnail_path, url))
-                        elif len(parts) >= 3:  # Old format without URL
-                            filename = parts[0]
-                            filepath = parts[1]
-                            thumbnail_path = parts[2]
-                            print(f"  - Loaded: {filename}")
-                            self.downloaded_files.append((filename, filepath, thumbnail_path, ""))
-                print(f"Download history loaded: {len(self.downloaded_files)} items")
-            else:
-                print("Download history file not found at:", self.history_file_path)
-                self.downloaded_files = []
-            return self.downloaded_files
-        except Exception as e:
-            print(f"Error loading download history: {e}")
-            traceback.print_exc()
-            self.downloaded_files = []
-            return []
+        """Geçmiş yükleme işlevi devre dışı bırakıldı"""
+        return []
+        # try:
+        #     if os.path.exists(self.history_file_path):
+        #         print(f"Loading download history from {self.history_file_path}")
+        #         self.downloaded_files = []
+        #         with open(self.history_file_path, "r", encoding="utf-8") as f:
+        #             for line in f:
+        #                 try:
+        #                     # Satırın boş olup olmadığını kontrol et
+        #                     line = line.strip()
+        #                     if not line:
+        #                         continue
+        #                     
+        #                     # Verileri daha güvenli bir şekilde ayır
+        #                     # Son parça video URL'si olduğundan, maksimum 3 ayrıştırma ile 4 parça elde et
+        #                     parts = line.split("|", 3)
+        #                     
+        #                     if len(parts) >= 3:
+        #                         filename = parts[0]
+        #                         filepath = parts[1]
+        #                         thumbnail_path = parts[2]
+        #                         url = parts[3] if len(parts) >= 4 else ""
+        #                         
+        #                         # Gerçekten dosya mevcut mu kontrol et
+        #                         file_exists = os.path.exists(filepath) if filepath else False
+        #                         
+        #                         # Thumbnail mevcut mu kontrol et - yoksa yalnızca hata mesajı yazdır
+        #                         thumbnail_exists = os.path.exists(thumbnail_path) if thumbnail_path else False
+        #                         if not thumbnail_exists and thumbnail_path:
+        #                             print(f"  - Uyarı: Thumbnail bulunamadı: {thumbnail_path}")
+        #                         
+        #                         if file_exists:
+        #                             print(f"  - Yüklendi: {filename}")
+        #                             print(f"    Dosya: {filepath}")
+        #                             print(f"    Thumbnail: {thumbnail_path} (Mevcut: {thumbnail_exists})")
+        #                             print(f"    URL: {url if url else 'N/A'}")
+        #                             self.downloaded_files.append((filename, filepath, thumbnail_path, url))
+        #                         else:
+        #                             print(f"  - Atlandı (dosya bulunamadı): {filename}")
+        #                 except Exception as e:
+        #                     print(f"Satır ayrıştırma hatası: {e}")
+        #                     continue
+        #             
+        #         print(f"İndirme geçmişi yüklendi: {len(self.downloaded_files)} öğe")
+        #     else:
+        #         print("İndirme geçmişi dosyası bulunamadı:", self.history_file_path)
+        #         self.downloaded_files = []
+        #     return self.downloaded_files
+        # except Exception as e:
+        #     print(f"İndirme geçmişi yükleme hatası: {e}")
+        #     import traceback
+        #     traceback.print_exc()
+        #     self.downloaded_files = []
+        #     return []
     
     def clean_filename(self, filename):
         """Cleans invalid characters from filename"""
