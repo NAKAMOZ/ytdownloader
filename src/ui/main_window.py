@@ -130,6 +130,12 @@ class YouTubeDownloaderUI(QMainWindow):
         self.playlist_check = QCheckBox("Download as playlist")
         add_options_layout.addWidget(self.playlist_check)
         
+        # Özel video atlama seçeneği
+        self.skip_private_check = QCheckBox("Skip private videos")
+        self.skip_private_check.setChecked(True)  # Varsayılan olarak seçili
+        self.skip_private_check.setToolTip("When checked, private videos will be skipped instead of causing errors")
+        add_options_layout.addWidget(self.skip_private_check)
+        
         options_layout.addWidget(add_options_group)
         download_layout.addLayout(options_layout)
         
@@ -159,6 +165,13 @@ class YouTubeDownloaderUI(QMainWindow):
         self.download_button.clicked.connect(self.start_download)
         self.download_button.setMinimumHeight(40)
         download_layout.addWidget(self.download_button)
+        
+        # Durdurma butonu ekleyelim
+        self.stop_button = QPushButton("STOP")
+        self.stop_button.clicked.connect(self.stop_download)
+        self.stop_button.setMinimumHeight(40)
+        self.stop_button.setEnabled(False)  # Başlangıçta devre dışı
+        download_layout.addWidget(self.stop_button)
         
         progress_group = QGroupBox("Download Progress")
         progress_layout = QVBoxLayout(progress_group)
@@ -255,37 +268,57 @@ class YouTubeDownloaderUI(QMainWindow):
     
     def start_download(self):
         url = self.url_input.text().strip()
-        if not url:
-            self.show_message("Input Error", "Please enter a YouTube URL.", QMessageBox.Icon.Warning)
-            return
         
-        self.progress_bar.setValue(0)
-        self.status_label.setText("Starting download...")
-        self.playlist_status.setText("")
+        if not url:
+            self.show_message("Error", "Please enter a YouTube URL", QMessageBox.Icon.Warning)
+            return
         
         is_video = self.video_radio.isChecked()
         quality = self.quality_combo.currentText()
         is_playlist = self.playlist_check.isChecked()
         
+        # Özel videoları atlama seçeneğini ayarla
+        self.backend.set_skip_private(self.skip_private_check.isChecked())
+        
+        self.progress_bar.setValue(0)
+        self.status_label.setText("Starting download...")
+        self.playlist_status.setText("")
+        
         self.backend.start_download(url, is_video, quality, is_playlist)
+        
+        # Butonların durumunu güncelle
         self.download_button.setEnabled(False)
+        self.stop_button.setEnabled(True)
+    
+    def stop_download(self):
+        """İndirme işlemini durdurur"""
+        self.backend.stop_download()
+        self.stop_button.setEnabled(False)
+        self.download_button.setEnabled(True)
     
     def update_progress(self, percentage):
         self.progress_bar.setValue(int(percentage))
     
     def update_status(self, status):
         self.status_label.setText(status)
+        
+        # İndirme tamamlandı veya iptal edildi mesajlarına göre buton durumlarını güncelle
+        if "completed" in status.lower() or "cancelled" in status.lower() or "error" in status.lower():
+            self.download_button.setEnabled(True)
+            self.stop_button.setEnabled(False)
     
     def update_playlist_progress(self, current, total):
-        self.playlist_status.setText(f"Processing video {current} of {total}")
+        self.playlist_status.setText(f"Processing: {current}/{total}")
     
     def download_finished(self, filename, filepath, thumbnail_path):
         self.status_label.setText(f"Download completed: {filename}")
         self.download_button.setEnabled(True)
+        self.stop_button.setEnabled(False)
     
     def show_error(self, error_msg):
         self.show_message("Download Error", error_msg, QMessageBox.Icon.Critical)
         self.download_button.setEnabled(True)
+        self.stop_button.setEnabled(False)
     
     def show_message(self, title, message, icon=QMessageBox.Icon.Information):
         msg_box = QMessageBox(self)
