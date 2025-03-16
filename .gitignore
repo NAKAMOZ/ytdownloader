@@ -1,9 +1,9 @@
-# Byte-compiled / optimized / DLL files
+# Byte-derlenmiş / optimize edilmiş / DLL dosyaları
 __pycache__/
 *.py[cod]
 *$py.class
 
-# Distribution / packaging
+# Dağıtım / paketleme
 .Python
 build/
 develop-eggs/
@@ -26,11 +26,11 @@ MANIFEST
 *.manifest
 *.spec
 
-# Installer logs
+# Yükleyici logları
 pip-log.txt
 pip-delete-this-directory.txt
 
-# Unit test / coverage reports
+# Birim test / kapsama raporları
 htmlcov/
 .tox/
 .coverage
@@ -42,16 +42,16 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 
-# PyCharm files
+# PyCharm dosyaları
 .idea/
 *.iml
 *.iws
 
-# VS Code files
+# VS Code dosyaları
 .vscode/
 *.code-workspace
 
-# Environment
+# Ortam
 .env
 .venv
 env/
@@ -60,11 +60,11 @@ ENV/
 env.bak/
 venv.bak/
 
-# Project-specific files
+# Projeye özgü dosyalar
 download_history.txt
 thumbnails/
 
-# Windows-specific
+# Windows'a özgü
 Thumbs.db
 ehthumbs.db
 Desktop.ini
@@ -75,5 +75,8 @@ header.bmp
 welcome.bmp
 icon.ico
 
-# Logs
+# Inno Setup
+*.iss
+
+# Loglar
 *.log 
